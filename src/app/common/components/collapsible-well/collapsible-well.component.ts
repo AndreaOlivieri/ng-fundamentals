@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-collapsible-well',
@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollapsibleWellComponent implements OnInit {
 
-  constructor() { }
+  @Input() title: string;
+  visible: boolean;
+
+  constructor() {
+    this.visible = true;
+  }
 
   ngOnInit() {
+  }
+
+  toggleContent() {
+    this.visible = !this.visible;
   }
 
 }

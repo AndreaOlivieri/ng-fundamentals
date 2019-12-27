@@ -12,11 +12,16 @@ export class EventDetailsComponent implements OnInit {
 
   event: IEvent;
   addMode: boolean;
+  filterBy: string;
+  sortBy: string;
 
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.filterBy = 'all';
+    this.sortBy = 'name';
+  }
 
   ngOnInit() {
     this.event = this.eventService.getEvent(+this.route.snapshot.params['id']);
