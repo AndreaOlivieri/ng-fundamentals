@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
-import {IEvent} from '../../common/event.model';
+import {IEvent} from '../../common/models/event.model';
 
 @Component({
   selector: 'app-event-thumbnail',

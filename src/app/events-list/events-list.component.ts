@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../common/event.service';
-import { ToastrService } from '../common/toastr.service';
+import { EventService } from '../common/services/event.service';
+import { ToastrService } from '../common/services/toastr.service';
 import {ActivatedRoute} from '@angular/router';
-import {IEvent} from '../common/event.model';
+import {IEvent} from '../common/models/event.model';
 
 @Component({
   templateUrl: './events-list.component.html',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {IEvent} from '../common/event.model';
-import {EventService} from '../common/event.service';
+import {IEvent} from '../common/models/event.model';
+import {EventService} from '../common/services/event.service';
 
 @Component({
   templateUrl: './create-event.component.html',
