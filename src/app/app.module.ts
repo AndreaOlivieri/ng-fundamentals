@@ -15,6 +15,11 @@ import { CreateEventSessionComponent } from './event-session/create-event-sessio
 import { EventSessionListComponent } from './event-details/event-session-list/event-session-list.component';
 import { CollapsibleWellComponent } from './common/components/collapsible-well/collapsible-well.component';
 import { DurationPipe } from './common/pipes/duration.pipe';
+import { JQ_TOKEN } from './common/services/jquery.service';
+import { SimpleModalComponent } from './common/components/simple-modal/simple-modal.component';
+import { ModalTriggerDirective } from './common/directives/modal-trigger.directive';
+
+const jQuery = window['$'];
 
 @NgModule({
   declarations: [
@@ -28,7 +33,9 @@ import { DurationPipe } from './common/pipes/duration.pipe';
     CreateEventSessionComponent,
     EventSessionListComponent,
     CollapsibleWellComponent,
-    DurationPipe
+    DurationPipe,
+    SimpleModalComponent,
+    ModalTriggerDirective
   ],
   imports: [
     BrowserModule,
@@ -36,7 +43,9 @@ import { DurationPipe } from './common/pipes/duration.pipe';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: JQ_TOKEN, useValue: jQuery}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

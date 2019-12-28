@@ -1,4 +1,5 @@
 export interface IEventSession {
+  eventId?: number;
   id: number,
   name: string
   presenter: string,

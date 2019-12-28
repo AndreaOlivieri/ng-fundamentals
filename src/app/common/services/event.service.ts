@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {IEvent} from '../models/event.model';
+import {IEventSession} from '../models/event-session.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,29 @@ export class EventService {
   updateEvent(changedEvent: IEvent) {
     const index = EVENTS.findIndex(event => event.id === changedEvent.id );
     EVENTS[index] = changedEvent;
+  }
+
+  searchSessions(searchTerm: string) {
+    const term = searchTerm.toLowerCase();
+    let results: Array<IEventSession> = [];
+
+    EVENTS.forEach(event => {
+      const matchingSessions = event.sessions.filter(session => {
+        return session.name.toLowerCase().indexOf(term) > - 1;
+      }).map((session: any) => {
+        session.eventId = event.id;
+        return session;
+      });
+
+      results = results.concat(matchingSessions);
+    });
+
+    const emitter = new EventEmitter(true);
+    setTimeout(() => {
+      emitter.emit(results);
+    }, 100);
+
+    return emitter;
   }
 }
 
