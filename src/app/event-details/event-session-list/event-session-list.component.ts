@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import {IEventSession} from '../../common/models/event-session.model';
+import {AuthService} from '../../user/shared/auth.service';
+import {VoterService} from './upvote/voter.service';
 
 @Component({
   selector: 'app-event-session-list',
@@ -13,7 +15,10 @@ export class EventSessionListComponent implements OnInit, OnChanges {
   @Input() sortBy: string;
   visibleSessions: Array<IEventSession>;
 
-  constructor() {
+  constructor(
+    private voterService: VoterService,
+    private authService: AuthService
+  ) {
     this.visibleSessions = [];
   }
 
@@ -36,21 +41,52 @@ export class EventSessionListComponent implements OnInit, OnChanges {
   }
 
   sortSessions(sort: string) {
-    if (sort === 'name') {
-      this.visibleSessions.sort((s1, s2) => {
-        if (s1.name > s2.name) {
-          return 1;
-        } else if (s1.name === s2.name) {
-          return 0;
-        } else {
-          return -1;
-        }
-      });
-    } else {
-      this.visibleSessions.sort((s1, s2) => {
-        return s2.voters.length - s1.voters.length;
-      });
+    let sortMethod;
+    switch (sort) {
+      case 'name': {
+          sortMethod = sortSessionsByNameAsc;
+          break;
+       }
+       case 'votes': {
+          sortMethod = sortSessionsByVotesDesc;
+          break;
+       }
+       default: {
+          break;
+       }
+    }
+    if (sortMethod) {
+      this.visibleSessions.sort(sortMethod);
     }
   }
 
+  toggleVote(session: IEventSession) {
+    if (this.userHasVoted(session)) {
+      this.voterService.deleteVoter(session, this.authService.currentUser.userName);
+    } else {
+      this.voterService.addVoter(session, this.authService.currentUser.userName);
+    }
+
+    if (this.sortBy === 'votes') {
+      this.sortSessions(this.sortBy);
+    }
+  }
+
+  userHasVoted(session: IEventSession): boolean {
+    return this.voterService.userHasVoted(session, this.authService.currentUser.userName);
+  }
+}
+
+function sortSessionsByNameAsc(s1, s2) {
+  if (s1.name > s2.name) {
+    return 1;
+  } else if (s1.name === s2.name) {
+    return 0;
+  } else {
+    return -1;
+  }
+}
+
+function sortSessionsByVotesDesc(s1, s2) {
+  return s2.voters.length - s1.voters.length;
 }

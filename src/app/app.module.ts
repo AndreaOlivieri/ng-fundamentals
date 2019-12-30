@@ -18,6 +18,9 @@ import { DurationPipe } from './common/pipes/duration.pipe';
 import { JQ_TOKEN } from './common/services/jquery.service';
 import { SimpleModalComponent } from './common/components/simple-modal/simple-modal.component';
 import { ModalTriggerDirective } from './common/directives/modal-trigger.directive';
+import { UpvoteComponent } from './event-details/event-session-list/upvote/upvote.component';
+import { LocationValidatorDirective } from './create-event/location-validator.directive';
+import {HttpClientModule} from '@angular/common/http';
 
 const jQuery = window['$'];
 
@@ -35,13 +38,16 @@ const jQuery = window['$'];
     CollapsibleWellComponent,
     DurationPipe,
     SimpleModalComponent,
-    ModalTriggerDirective
+    ModalTriggerDirective,
+    UpvoteComponent,
+    LocationValidatorDirective
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     { provide: JQ_TOKEN, useValue: jQuery}
