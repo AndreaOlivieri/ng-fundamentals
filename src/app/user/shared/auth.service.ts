@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import {IUser} from '../user.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,15 +10,27 @@ import {IUser} from '../user.model';
 export class AuthService {
 
   currentUser: IUser;
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  loginUser(userName: string, password: string) {
-    this.currentUser = {
-      id: 1,
-      firstName: 'Andrea',
-      lastName: 'Olivieri',
-      userName
+  loginUser(username: string, password: string) {
+    const loginInfo = {
+      username,
+      password
     };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http
+      .post('/api/login', loginInfo, options)
+      .pipe(tap(data => {
+        this.currentUser = <IUser> data['user'];
+      }))
+      .pipe(catchError( err => {
+        this.handleError('loginUser', err);
+        return of(false);
+      }));
   }
 
   isAuthenticated() {
@@ -26,6 +41,13 @@ export class AuthService {
     this.currentUser = {
       ...this.currentUser,
       ...newValues
+    };
+  }
+
+  private handleError<T>(operation="operation", results?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(results as T);
     };
   }
 }
