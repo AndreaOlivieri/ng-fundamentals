@@ -10,6 +10,7 @@ import {VoterService} from './upvote/voter.service';
 })
 export class EventSessionListComponent implements OnInit, OnChanges {
 
+  @Input() eventId: number;
   @Input() sessions: Array<IEventSession>;
   @Input() filterBy: string;
   @Input() sortBy: string;
@@ -62,9 +63,9 @@ export class EventSessionListComponent implements OnInit, OnChanges {
 
   toggleVote(session: IEventSession) {
     if (this.userHasVoted(session)) {
-      this.voterService.deleteVoter(session, this.authService.currentUser.userName);
+      this.voterService.deleteVoter(this.eventId, session, this.authService.currentUser.userName);
     } else {
-      this.voterService.addVoter(session, this.authService.currentUser.userName);
+      this.voterService.addVoter(this.eventId, session, this.authService.currentUser.userName);
     }
 
     if (this.sortBy === 'votes') {
