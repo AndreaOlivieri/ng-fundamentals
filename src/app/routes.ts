@@ -13,7 +13,7 @@ export const appRoutes: Routes = [
   { path: 'events', component: EventsListComponent, resolve: {events: EventsListRouteGuardService} },
   { path: 'events/new', component: CreateEventComponent, canDeactivate: [CreateEventRouteGuardService] },
   { path: 'events/session/new', component: CreateEventSessionComponent },
-  { path: 'events/:id', component: EventDetailsComponent, canActivate: [EventDetailsRouteGuardService] },
+  { path: 'events/:id', component: EventDetailsComponent, resolve: {event: EventDetailsRouteGuardService} },
   { path: '404', component: PageNotFoundComponent },
   { path: 'user', loadChildren: './user/user.module#UserModule' },
   { path: '', redirectTo: '/events', pathMatch: 'full' }
