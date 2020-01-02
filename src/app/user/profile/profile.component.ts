@@ -37,10 +37,14 @@ export class ProfileComponent implements OnInit {
     } = formValues;
 
     this.authService.updateProfile({
-      firstName,
-      lastName
-    });
-    this.router.navigateByUrl('/events');
+        firstName,
+        lastName
+      })
+      .subscribe(resp => {
+        if (resp) {
+          this.router.navigateByUrl('/events');
+        }
+      });
   }
 
   isFirstNameValid() {

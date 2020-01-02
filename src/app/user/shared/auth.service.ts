@@ -42,6 +42,23 @@ export class AuthService {
       ...this.currentUser,
       ...newValues
     };
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.put(`/api/users/${this.currentUser.id}`, this.currentUser, options);
+  }
+
+  checkAuthenticationStatus() {
+    this.http.get('/api/currentIdentity')
+      .pipe(tap(data => {
+        if (data instanceof Object) {
+          this.currentUser = <IUser> data;
+        }
+      }))
+      .subscribe();
   }
 
   private handleError<T>(operation="operation", results?: T) {
