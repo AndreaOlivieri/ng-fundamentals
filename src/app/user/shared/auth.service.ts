@@ -61,6 +61,16 @@ export class AuthService {
       .subscribe();
   }
 
+  logout() {
+    this.currentUser = null;
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post('/api/logout', {}, options);
+  }
+
   private handleError<T>(operation="operation", results?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

@@ -47,6 +47,13 @@ export class ProfileComponent implements OnInit {
       });
   }
 
+  logout() {
+    this.authService.logout()
+      .subscribe(resp => {
+        this.router.navigateByUrl('/user/login');
+      });
+  }
+
   isFirstNameValid() {
     const {firstName} = this.profileForm.controls;
     return firstName.valid || firstName.untouched;
@@ -56,5 +63,4 @@ export class ProfileComponent implements OnInit {
     const {lastName} = this.profileForm.controls;
     return lastName.valid || !lastName.untouched;
   }
-
 }
