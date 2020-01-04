@@ -12,9 +12,14 @@ import { DebugElement } from '@angular/core';
 describe('EventSessionListComponent', () => {
   let component: EventSessionListComponent;
   let fixture: ComponentFixture<EventSessionListComponent>;
-  let mockVoterService = {};
+  let mockVoterService = {
+    userHasVoted: () => true,
+  };
   let mockAuthService = {
-    isAuthenticated: () => false
+    isAuthenticated: () => true,
+    currentUser: {
+      userName: 'Joe'
+    }
   };
   let element: HTMLElement;
   let debugEl: DebugElement;
